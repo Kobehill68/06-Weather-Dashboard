@@ -64,8 +64,18 @@ function uvInd(lat, lon) {
 
 
 
-function UVScale() {
-
+function UVScale(indVal) {
+    if(indVal > 0 && indVal < 2.5){
+        uvSpan = "green";
+    } else if(indVal > 2.5 && indVal < 5){
+        uvSpan = "yellow"
+    } else if ( indVal > 5 && indVal < 7){
+        uvSpan = "orange"
+    } else if ( indVal > 7 && indVal < 11){
+        uvSpan = "red"
+    }
+    var uvSpan = $("<span>").attr("class", uvSpan).text(indVal);
+    var uvIndH5 = $("<h5>").attr("class")
 }
 
 
@@ -96,15 +106,27 @@ function getCityHist() {
 }
 
 
+function putCityToStor() {
+
+}
 
 function pullCityFromStor() {
 
 }
 
 
-function putCityToStor() {
+$("#search-button").click(function(event){
+    event.preventDefault();
+    cityToSearch = $("#search-form").val().trim();
+    $("#search-form").val("");
 
-}
+    if(cityToSearch === ""){
+        return;
+    }
+    putCityToStor();
+    sCityWeather();
+    sCityForecast();
+});
 
 
 
