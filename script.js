@@ -75,13 +75,26 @@ function UVScale(indVal) {
         uvSpan = "red"
     }
     var uvSpan = $("<span>").attr("class", uvSpan).text(indVal);
-    var uvIndH5 = $("<h5>").attr("class")
+    var uvIndH5 = $("<h5>").attr("class", "city-card-text").attr("id", "uv-index").text("UV Index: ").append(uvSpan);
+    $(".city-card-text").append(uvIndH5);
 }
 
 
 
 
 function sCityForecast() {
+    var bURl = ""
+    var localUrl = cityToSearch
+    var localUnits = "&units=imperial";
+    var queryURl = bURl + localUrl + localUnits + apiKey 
+
+    $.ajax({
+        url: queryURl,
+        method: "GET"
+    }).then(function(reponse){
+        
+    })
+
 
 }
 
