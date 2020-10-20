@@ -29,13 +29,35 @@ function sCityWeather() {
     $.ajax({
         url: queryURl,
         method: "GET",
-    }).then()
+    }).then(function (response){
+        var cName = response.name;
+        var cDate = monent.unix(response.dt).format("MM/DD/YYYY");
+        var cIcon = response.weather[0].icon
+        var cIconUrl = "http://api.openweathermap.org/img/w/" + cIcon + ".png";
+        var cTemp = response.main.temp;
+        var cHumid = response.main.humidity;
+        var cWindS = response.main.speed
+        var cLat = response.coord.lat;
+        var cLon = response.coord.lon;
+
+        getCityWeather(cName, cDate, cTemp, cHumid, cWindS, cIconUrl);
+        uvInd(cLat, cLon);
+
+    });
 
 }
 
 
 
-function uvInd() {
+function uvInd(lat, lon) {
+    queryURl = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=549bf1423006452f81dc918ddda35db0";
+    $.ajax({
+        url: queryURl,
+        method: "GET"
+    }).then( function(response){
+        UVScale(response.value);
+    });
+
 
 }
 
