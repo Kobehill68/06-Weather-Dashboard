@@ -92,16 +92,24 @@ function sCityForecast() {
         url: queryURl,
         method: "GET"
     }).then(function(reponse){
-        
-    })
+       for(var i = 0; i < reponse.list.length; i++){
+          if(reponse.list[i].dt_txt[12] === "2"){
+            var forcasrD = moment.unix(reponse.list[i].dt).format("MM/DD/YYYY");
+            var forcasTemp = reponse.list[i].main.temp;
+            var forcasHum = reponse.list[i].main.humidity;
+            var forcasIcon = reponse.list[i].weather[0].icon;
+            var forcastIUrl = "http:/openweathermap.org/img/w/" + forcasIcon + ".png";
 
-
+            getCityForecast(forcasrD, forcasTemp, forcasHum, forcastIUrl);
+          }
+       } 
+    });
 }
 
 
 
 
-function getCityWeather() {
+function getCityWeather(cName, cDate, cTemp, cHumid, cWindS, cIconUrl) {
 
 } 
 
@@ -109,7 +117,7 @@ function getCityWeather() {
 
 
 
-function getCityForecast() {
+function getCityForecast(forcasrD, forcasTemp, forcasHum, forcastIUrl) {
 
 }
 
