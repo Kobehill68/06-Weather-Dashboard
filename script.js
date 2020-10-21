@@ -114,11 +114,15 @@ function getCityWeather(cName, cDate, cTemp, cHumid, cWindS, cIconUrl) {
     $("forcast-deck").empty();
     var card = $("<div>").attr("class", "card city-card");
     var cardB = $("<div>").attr("class", "card-body city-card-body");
-    var cardC = $("<h3>");
-    var cardTemp = $();
-    var cardHum = $();
-    var cardWSpeed = $();
+    var cardC = $("<h3>").attr("class", "card-title city-card-title").text(cName + " (" + cDate + ")");
+    $("<img>").attr("class", "icon").attr("src", cIconUrl).attr("alt", "Weather Icon").appendTO(cardC);
+    var cardTemp = $("<h5>").attr("class", "card-text city-card-text").text("Temperature: " + cTemp + " °F");
+    var cardHum = $("<h5>").attr("class", "card-text city-card-text").text("Humidity: " + cHumid + " %");
+    var cardWSpeed = $("<h5>").attr("class", "card-text city-card-text").text("Wind Speed: " + cWindS + "MPH");
 
+    $(cardB).append(cardC, cardTemp, cardHum, cardWSpeed);
+    $(card).append(cardB);
+    $("#city-summ").append(card);
 
 } 
 
