@@ -131,6 +131,15 @@ function getCityWeather(cName, cDate, cTemp, cHumid, cWindS, cIconUrl) {
 
 
 function getCityForecast(forcasD, forcasTemp, forcasHum, forcastIUrl) {
+    var card = $();
+    var cardBod = $();
+    $();
+    $();
+    $();
+    $();
+    $();
+    $();
+    
 
 }
 
