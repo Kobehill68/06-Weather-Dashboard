@@ -94,13 +94,13 @@ function sCityForecast() {
     }).then(function(reponse){
        for(var i = 0; i < reponse.list.length; i++){
           if(reponse.list[i].dt_txt[12] === "2"){
-            var forcasrD = moment.unix(reponse.list[i].dt).format("MM/DD/YYYY");
+            var forcasD = moment.unix(reponse.list[i].dt).format("MM/DD/YYYY");
             var forcasTemp = reponse.list[i].main.temp;
             var forcasHum = reponse.list[i].main.humidity;
             var forcasIcon = reponse.list[i].weather[0].icon;
             var forcastIUrl = "http:/openweathermap.org/img/w/" + forcasIcon + ".png";
 
-            getCityForecast(forcasrD, forcasTemp, forcasHum, forcastIUrl);
+            getCityForecast(forcasD, forcasTemp, forcasHum, forcastIUrl);
           }
        } 
     });
@@ -110,6 +110,15 @@ function sCityForecast() {
 
 
 function getCityWeather(cName, cDate, cTemp, cHumid, cWindS, cIconUrl) {
+    $("#city-summ").empty();
+    $("forcast-deck").empty();
+    var card = $("<div>").attr("class", "card city-card");
+    var cardB = $("<div>").attr("class", "card-body city-card-body");
+    var cardC = $("<h3>");
+    var cardTemp = $();
+    var cardHum = $();
+    var cardWSpeed = $();
+
 
 } 
 
@@ -117,7 +126,7 @@ function getCityWeather(cName, cDate, cTemp, cHumid, cWindS, cIconUrl) {
 
 
 
-function getCityForecast(forcasrD, forcasTemp, forcasHum, forcastIUrl) {
+function getCityForecast(forcasD, forcasTemp, forcasHum, forcastIUrl) {
 
 }
 
