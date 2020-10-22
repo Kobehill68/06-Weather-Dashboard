@@ -3,8 +3,10 @@ body{
     font-size: 15px;
 }
 
-.navbar {
-    text-align: center;
+.icon {
+    height: 50px;
+    width: 50px;
+    
 }
 
 
