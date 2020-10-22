@@ -1,6 +1,6 @@
 var cityToSearch = "";
 var loadLastCity = "";
-var apiKey = "&APPID=549bf1423006452f81dc918ddda35db0";
+var apiKey = "&appid=5c02bbe1f140c217ecb0d045ebc0dbb5";
 
 cityHist= [];
 
@@ -21,17 +21,17 @@ function init() {
 
 
 function sCityWeather() {
-    var bURl =  "http://api.openweathermap.org/data/2.5/weather?q=";
+    var baseURl =  "http://api.openweathermap.org/data/2.5/weather?q=";
     var lURL = cityToSearch;
-    var locaUnits = "&Units=imperial";
-    var queryURl = bURl + lURL  + locaUnits + apiKey;
+    var locaUnits = "&units=imperial";
+    var queryURl = baseURl + lURL  + locaUnits + apiKey;
 
     $.ajax({
         url: queryURl,
         method: "GET",
     }).then(function (response){
         var cName = response.name;
-        var cDate = monent.unix(response.dt).format("MM/DD/YYYY");
+        var cDate = moment.unix(response.dt).format("MM/DD/YYYY");
         var cIcon = response.weather[0].icon
         var cIconUrl = "http://api.openweathermap.org/img/w/" + cIcon + ".png";
         var cTemp = response.main.temp;
@@ -50,7 +50,7 @@ function sCityWeather() {
 
 
 function uvInd(lat, lon) {
-    queryURl = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=549bf1423006452f81dc918ddda35db0";
+    queryURl = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=5c02bbe1f140c217ecb0d045ebc0dbb5";
     $.ajax({
         url: queryURl,
         method: "GET"
@@ -83,7 +83,7 @@ function UVScale(indVal) {
 
 
 function sCityForecast() {
-    var bURl = ""
+    var bURl = "https://api.openweathermap.org/data/2.5/forecast?q="
     var localUrl = cityToSearch
     var localUnits = "&units=imperial";
     var queryURl = bURl + localUrl + localUnits + apiKey 
@@ -98,7 +98,7 @@ function sCityForecast() {
             var forcasTemp = reponse.list[i].main.temp;
             var forcasHum = reponse.list[i].main.humidity;
             var forcasIcon = reponse.list[i].weather[0].icon;
-            var forcastIUrl = "http:/openweathermap.org/img/w/" + forcasIcon + ".png";
+            var forcastIUrl = "http://api.openweathermap.org/img/w/" + forcasIcon + ".png";
 
             getCityForecast(forcasD, forcasTemp, forcasHum, forcastIUrl);
           }
@@ -115,7 +115,7 @@ function getCityWeather(cName, cDate, cTemp, cHumid, cWindS, cIconUrl) {
     var card = $("<div>").attr("class", "card city-card");
     var cardB = $("<div>").attr("class", "card-body city-card-body");
     var cardC = $("<h3>").attr("class", "card-title city-card-title").text(cName + " (" + cDate + ")");
-    $("<img>").attr("class", "icon").attr("src", cIconUrl).attr("alt", "Weather Icon").appendTO(cardC);
+    $("<img>").attr("class", "icon").attr("src", cIconUrl).attr("alt", "Weather Icon").appendTo(cardC);
     var cardTemp = $("<h5>").attr("class", "card-text city-card-text").text("Temperature: " + cTemp + " °F");
     var cardHum = $("<h5>").attr("class", "card-text city-card-text").text("Humidity: " + cHumid + " %");
     var cardWSpeed = $("<h5>").attr("class", "card-text city-card-text").text("Wind Speed: " + cWindS + "MPH");
@@ -133,10 +133,10 @@ function getCityWeather(cName, cDate, cTemp, cHumid, cWindS, cIconUrl) {
 function getCityForecast(forcasD, forcasTemp, forcasHum, forcastIUrl) {
     var card = $("<div>").attr("class", "card bg-light forecast-card");
     var cardBod = $("<div>").attr("class", "card-body forecast-card-body");
-    $("<h6>").attr("class","card-title forecast-card-title").text(forcasD).appendTO(cardBod);
-    $("<img>").attr("class", "icon").attr("src", forcastIUrl).attr("alt", "Weather Icon").appendTO(cardBod);
-    $("<p>").attr("class", "Card-text forecast-card-text").text("Temp: " + forcasTemp + " °F").appendTO(cardBod);
-    $("<p>").attr("class", "Card-text forecast-card-text").text("Humidity: " + forcasHum + " %").appendTO(cardBod);
+    $("<h6>").attr("class","card-title forecast-card-title").text(forcasD).appendTo(cardBod);
+    $("<img>").attr("class", "icon").attr("src", forcastIUrl).attr("alt", "Weather Icon").appendTo(cardBod);
+    $("<p>").attr("class", "Card-text forecast-card-text").text("Temp: " + forcasTemp + " °F").appendTo(cardBod);
+    $("<p>").attr("class", "Card-text forecast-card-text").text("Humidity: " + forcasHum + " %").appendTo(cardBod);
     $(card).append(cardBod);
     $("#forcast-deck").append(card);
 }
@@ -145,17 +145,32 @@ function getCityForecast(forcasD, forcasTemp, forcasHum, forcastIUrl) {
 function getCityHist() {
     $("#search-list").empty();
     for(var i = 0; i < cityHist.length; i++){
-        
+      var histBtn = $("<button>").attr("class", "button history-button").text(cityHist[i]);
+      $("#serch-form").prepend(histBtn);  
     }
 }
 
-
-function putCityToStor() {
+function pullCityFromStor() {
+    storedCityhist = JSON.parse(localStorage.getItem("cityHist"));
+    if(storedCityhist !== null){
+        cityHist = storedCityhist;
+        loadLastCity = true
+        getCityHist();
+    }
 
 }
 
-function pullCityFromStor() {
 
+
+function putCityToStor() {
+    if(cityHist.includes(cityToSearch)){
+        return
+    } else{
+        cityHist.push(cityToSearch);
+        localStorage.setItem("cityHist", JSON.stringify(cityHist));
+        getCityHist();
+        location.reload();
+    }
 }
 
 
@@ -172,8 +187,9 @@ $("#search-button").click(function(event){
     sCityForecast();
 });
 
-
-
-
-
-
+$(".history-button").click(function(event){
+    event.preventDefault();
+    cityToSearch = $(this).text().trim();
+    getCityWeather();
+    getCityForecast();
+})
