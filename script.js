@@ -8,7 +8,7 @@ init();
 
 
 function init() {
-    pullCityFromStor();
+    pullCityFromStore();
 
     if(loadLastCity) {
         cityToSearch = cityHist[cityHist.length - 1].location;
@@ -36,7 +36,7 @@ function sCityWeather() {
         var cIconUrl = "http://api.openweathermap.org/img/w/" + cIcon + ".png";
         var cTemp = response.main.temp;
         var cHumid = response.main.humidity;
-        var cWindS = response.main.speed
+        var cWindS = response.wind.speed
         var cLat = response.coord.lat;
         var cLon = response.coord.lon;
 
@@ -51,9 +51,10 @@ function sCityWeather() {
 
 function uvInd(lat, lon) {
     queryURl = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=5c02bbe1f140c217ecb0d045ebc0dbb5";
+
     $.ajax({
         url: queryURl,
-        method: "GET"
+        method: "GET",
     }).then( function(response){
         UVScale(response.value);
     });
@@ -75,7 +76,7 @@ function UVScale(indVal) {
         uvSpan = "red"
     }
     var uvSpan = $("<span>").attr("class", uvSpan).text(indVal);
-    var uvIndH5 = $("<h5>").attr("class", "city-card-text").attr("id", "uv-index").text("UV Index: ").append(uvSpan);
+    var uvIndH5 = $("<h5>").attr("class", " card-text city-card-text").attr("id", "uv-index").text("UV Index: ").append(uvSpan);
     $(".city-card-text").append(uvIndH5);
 }
 
@@ -83,24 +84,25 @@ function UVScale(indVal) {
 
 
 function sCityForecast() {
-    var bURl = "https://api.openweathermap.org/data/2.5/forecast?q="
+    var baseURl = "https://api.openweathermap.org/data/2.5/forecast?q="
     var localUrl = cityToSearch
     var localUnits = "&units=imperial";
-    var queryURl = bURl + localUrl + localUnits + apiKey 
+    var queryURl = baseURl + localUrl + localUnits + apiKey 
 
     $.ajax({
         url: queryURl,
-        method: "GET"
-    }).then(function(reponse){
+        method: "GET",
+    }).then(function(reponse) {
+        
        for(var i = 0; i < reponse.list.length; i++){
           if(reponse.list[i].dt_txt[12] === "2"){
-            var forcasD = moment.unix(reponse.list[i].dt).format("MM/DD/YYYY");
-            var forcasTemp = reponse.list[i].main.temp;
-            var forcasHum = reponse.list[i].main.humidity;
-            var forcasIcon = reponse.list[i].weather[0].icon;
-            var forcastIUrl = "http://api.openweathermap.org/img/w/" + forcasIcon + ".png";
+            var forecasD = moment.unix(reponse.list[i].dt).format("MM/DD/YYYY");
+            var forecasTemp = reponse.list[i].main.temp;
+            var forecasHum = reponse.list[i].main.humidity;
+            var forecastIcon = reponse.list[i].weather[0].icon;
+            var forecastIUrl = "http://api.openweathermap.org/img/w/" + forecastIcon + ".png";
 
-            getCityForecast(forcasD, forcasTemp, forcasHum, forcastIUrl);
+            getCityForecast(forecasD, forecasTemp, forecasHum, forecastIUrl);
           }
        } 
     });
@@ -111,7 +113,7 @@ function sCityForecast() {
 
 function getCityWeather(cName, cDate, cTemp, cHumid, cWindS, cIconUrl) {
     $("#city-summ").empty();
-    $("forcast-deck").empty();
+    $("#forcast-deck").empty();
     var card = $("<div>").attr("class", "card city-card");
     var cardB = $("<div>").attr("class", "card-body city-card-body");
     var cardC = $("<h3>").attr("class", "card-title city-card-title").text(cName + " (" + cDate + ")");
@@ -150,7 +152,7 @@ function getCityHist() {
     }
 }
 
-function pullCityFromStor() {
+function pullCityFromStore() {
     storedCityhist = JSON.parse(localStorage.getItem("cityHist"));
     if(storedCityhist !== null){
         cityHist = storedCityhist;
@@ -162,7 +164,7 @@ function pullCityFromStor() {
 
 
 
-function putCityToStor() {
+function putCityToStore() {
     if(cityHist.includes(cityToSearch)){
         return
     } else{
@@ -182,7 +184,7 @@ $("#search-button").click(function(event){
     if(cityToSearch === ""){
         return;
     }
-    putCityToStor();
+    putCityToStore();
     sCityWeather();
     sCityForecast();
 });
@@ -190,6 +192,6 @@ $("#search-button").click(function(event){
 $(".history-button").click(function(event){
     event.preventDefault();
     cityToSearch = $(this).text().trim();
-    getCityWeather();
-    getCityForecast();
+    sCityWeather();
+    sCityForecast();
 })
