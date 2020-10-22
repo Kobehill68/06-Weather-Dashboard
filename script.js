@@ -21,7 +21,7 @@ function init() {
 
 
 function sCityWeather() {
-    var baseURl =  "http://api.openweathermap.org/data/2.5/weather?q=";
+    var baseURl =  "https://api.openweathermap.org/data/2.5/weather?q=";
     var lURL = cityToSearch;
     var locaUnits = "&units=imperial";
     var queryURl = baseURl + lURL  + locaUnits + apiKey;
@@ -33,7 +33,7 @@ function sCityWeather() {
         var cName = response.name;
         var cDate = moment.unix(response.dt).format("MM/DD/YYYY");
         var cIcon = response.weather[0].icon
-        var cIconUrl = "http://api.openweathermap.org/img/w/" + cIcon + ".png";
+        var cIconUrl = "https://api.openweathermap.org/img/w/" + cIcon + ".png";
         var cTemp = response.main.temp;
         var cHumid = response.main.humidity;
         var cWindS = response.wind.speed
@@ -50,7 +50,7 @@ function sCityWeather() {
 
 
 function uvInd(lat, lon) {
-    queryURl = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=5c02bbe1f140c217ecb0d045ebc0dbb5";
+    queryURl = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=5c02bbe1f140c217ecb0d045ebc0dbb5";
 
     $.ajax({
         url: queryURl,
@@ -93,14 +93,14 @@ function sCityForecast() {
         url: queryURl,
         method: "GET",
     }).then(function(reponse) {
-        
+
        for(var i = 0; i < reponse.list.length; i++){
           if(reponse.list[i].dt_txt[12] === "2"){
             var forecasD = moment.unix(reponse.list[i].dt).format("MM/DD/YYYY");
             var forecasTemp = reponse.list[i].main.temp;
             var forecasHum = reponse.list[i].main.humidity;
             var forecastIcon = reponse.list[i].weather[0].icon;
-            var forecastIUrl = "http://api.openweathermap.org/img/w/" + forecastIcon + ".png";
+            var forecastIUrl = "https://api.openweathermap.org/img/w/" + forecastIcon + ".png";
 
             getCityForecast(forecasD, forecasTemp, forecasHum, forecastIUrl);
           }
