@@ -1,0 +1,35 @@
+body{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 15px;
+}
+
+.navbar {
+    text-align: center;
+}
+
+
+
+.col-3 {
+    padding: 10px;
+    background-color: seashell;
+}
+
+.forecast-card-body {
+    padding: 10px;
+}
+
+.green {
+    background-color: green;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.orange {
+    background-color: orange;
+}
+
+.red { 
+    background-color: red;
+}
