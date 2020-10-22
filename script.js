@@ -131,21 +131,22 @@ function getCityWeather(cName, cDate, cTemp, cHumid, cWindS, cIconUrl) {
 
 
 function getCityForecast(forcasD, forcasTemp, forcasHum, forcastIUrl) {
-    var card = $();
-    var cardBod = $();
-    $();
-    $();
-    $();
-    $();
-    $();
-    $();
-    
-
+    var card = $("<div>").attr("class", "card bg-light forecast-card");
+    var cardBod = $("<div>").attr("class", "card-body forecast-card-body");
+    $("<h6>").attr("class","card-title forecast-card-title").text(forcasD).appendTO(cardBod);
+    $("<img>").attr("class", "icon").attr("src", forcastIUrl).attr("alt", "Weather Icon").appendTO(cardBod);
+    $("<p>").attr("class", "Card-text forecast-card-text").text("Temp: " + forcasTemp + " °F").appendTO(cardBod);
+    $("<p>").attr("class", "Card-text forecast-card-text").text("Humidity: " + forcasHum + " %").appendTO(cardBod);
+    $(card).append(cardBod);
+    $("#forcast-deck").append(card);
 }
 
 
 function getCityHist() {
-
+    $("#search-list").empty();
+    for(var i = 0; i < cityHist.length; i++){
+        
+    }
 }
 
 
