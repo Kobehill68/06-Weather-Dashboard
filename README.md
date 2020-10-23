@@ -69,31 +69,49 @@ Calls: uvInd(cLat, cLon)
 
 
 ### uvInd()
+This will recive lat and lon from sCityWeather
+Then builds a url excluvise of lat and lon 
+Preforms a ajax call to the openweathermap uv endpoint.
+Calls the uvScale Function. 
 
 
 ### uvScale()
-
+This will recive the UV index value from unInd and it will assign it to the local variable inVal.
+Then it evaluates the value of indVAl and assigns a class or color of: Green,Yellow,Orange,Red
+Defines a <span> having a atribute of the new defined class.
+Defines an <h5> with UV Index: text, value, appends<span>.
+Appends<h5>
 
 ### sCityForecast()
-
+This builds a url excluesive to the searched city.
+Preforms a ajax call to the openweather endpoint.
+Response items that are captured form the promise:
+Name,Date,Icon,Humindity,Temp,Wind Speed,lat,lon.
+Calls: getCityForecast(forecasD, forecasTemp, forecasHum, forecastIUrl)
 
 
 ### getCityWeather()
-
+This recives cName, cDate, cTemp, cHumid, cWindS, cIconUrl from sCityWeather.
+It Utilizes jQuery to build a card deck putting it at the buttom of the page.
 
 
 
 ### getCityForecast()
-
+This recives forecastD, forecastTemp, forecasrHumd, forecastIUrl from the sCitytForecast.
+It Utilizes jQuery to build a card deck putting it at the top and right of the page.
 
 
 ### getCityHist()
-This empties the #search-form
+This empties the #search-list parent so the updated list can be appened.
+Creates a button for each city in history.
+Prepend the new buttons to the #search-list.
 
 
 
 ### putCityToStore()
-
+If a city is searched and is already in the history it will do nothing.
+IF a new city is searched it will add it to the history.
+Calls getCityHist.
 
 
 
