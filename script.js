@@ -148,7 +148,7 @@ function getCityHist() {
     $("#search-list").empty();
     for(var i = 0; i < cityHist.length; i++){
       var histBtn = $("<button>").attr("class", "button history-button").text(cityHist[i]);
-      $("#serch-form").prepend(histBtn);  
+      $("#search-list").prepend(histBtn);  
     }
 }
 
